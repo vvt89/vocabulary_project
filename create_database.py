@@ -13,7 +13,7 @@ word = word.strip()  # Delete spaces on bath sides
 word = word.lower()
 match = re.match("^[ abcdefghijklmnopqrstuvwxyz]*$", word)  # Check if string consists only letters
 if match is not None:
-    words = word.split()
+    words = word.split()  # Delete redundant spaces
     new_word = ""
     for w in words:
         if len(w)>0:
@@ -30,14 +30,14 @@ if wordiscorrect:
     #cur.execute('DELETE FROM Words WHERE word = "fourteenteen"')
     counter = 0
     words_match = False
-    for row in cur:
+    for row in cur:  # How large is our vocabulary?
         counter += 1
         print(row)
         if new_word == row[1]:
             words_match = True
     print("length of the base: ", counter)
 
-    if words_match is False:
+    if words_match is False:  # Add new word
         params = (counter, new_word)
         cur.execute('INSERT INTO Words (id, word) VALUES(?,?)', params)
         conn.commit()
