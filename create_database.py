@@ -7,7 +7,7 @@ cur = conn.cursor()
 #cur.execute('DROP TABLE IF EXISTS Words')
 #cur.execute('CREATE TABLE Words (id INTEGER, word TEXT)')
 
-word = "trillion"
+word = "raven"
 wordiscorrect = False
 word = word.strip()  # Delete spaces on bath sides
 word = word.lower()
@@ -29,22 +29,25 @@ if wordiscorrect:
     cur.execute('SELECT * FROM Words')
     #cur.execute('DELETE FROM Words WHERE word = "fourteenteen"')
     counter = 0
+    last_number = 0
     words_match = False
     for row in cur:  # How large is our vocabulary?
         counter += 1
+        last_number = row[0]
         print(row)
         if new_word == row[1]:
             words_match = True
     print("length of the base: ", counter)
 
     if words_match is False:  # Add new word
-        params = (counter, new_word)
+        params = (last_number+1, new_word)
         cur.execute('INSERT INTO Words (id, word) VALUES(?,?)', params)
         conn.commit()
     else:
         print("this word is already exists in vocabulary")
 
-    #cur.execute('DELETE FROM Words WHERE id = 19')
+    #cur.execute('DELETE FROM Words WHERE id = 181')
+    #cur.execute('INSERT INTO Words (id, word) VALUES(?,?)', (181, "grandmother"))
     #conn.commit()
     cur.execute('SELECT * FROM Words')
     for row in cur:
