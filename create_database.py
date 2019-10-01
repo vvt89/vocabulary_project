@@ -4,10 +4,11 @@ import sqlite3
 conn = sqlite3.connect('english_vocabulary.sqlite')
 cur = conn.cursor()
 
+# Do not uncomment if database already created:
 #cur.execute('DROP TABLE IF EXISTS Words')
 #cur.execute('CREATE TABLE Words (id INTEGER, word TEXT)')
 
-word = "raven"
+word = "flamingo"
 wordiscorrect = False
 word = word.strip()  # Delete spaces on bath sides
 word = word.lower()
@@ -27,13 +28,12 @@ else:
 
 if wordiscorrect:
     cur.execute('SELECT * FROM Words')
-    #cur.execute('DELETE FROM Words WHERE word = "fourteenteen"')
     counter = 0
     last_number = 0
     words_match = False
     for row in cur:  # How large is our vocabulary?
         counter += 1
-        last_number = row[0]
+        last_number = row[0]  # It is used for next id calculation
         print(row)
         if new_word == row[1]:
             words_match = True
