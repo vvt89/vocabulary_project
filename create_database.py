@@ -8,12 +8,26 @@ cur = conn.cursor()
 #cur.execute('DROP TABLE IF EXISTS Words')
 #cur.execute('CREATE TABLE Words (id INTEGER, word TEXT)')
 
-word = "flamingo"
+word = "t-shirt"
 wordiscorrect = False
 word = word.strip()  # Delete spaces on bath sides
 word = word.lower()
-match = re.match("^[ abcdefghijklmnopqrstuvwxyz]*$", word)  # Check if string consists only letters
-if match is not None:
+match = []
+match0 = (re.match("^[ '\-abcdefghijklmnopqrstuvwxyz]*$", word))  # Check if string consists only letters
+match.append(re.search("^'\S", word))  # Check if word starts from '
+match.append(re.search("^\S+'$", word))  # Check if word ends by '
+match.append(re.search("^\S+'+'", word))  # Check if word consists ''
+match.append(re.search("^-\S", word))  # Check if word starts from -
+match.append(re.search("^\S+-$", word))  # Check if word ends by -
+match.append(re.search("^\S+-+-", word))  # Check if word consists --
+match_flag = False
+print(match0, match)
+if match0 is None:
+    match_flag = True
+for m in match:
+    if m is not None:
+        match_flag = True
+if match_flag is False:
     words = word.split()  # Delete redundant spaces
     new_word = ""
     for w in words:
