@@ -6,6 +6,10 @@ def add_new_word(database_file, word):
     cur = conn.cursor()
 
     wordiscorrect = False
+    words_match = True
+    list_of_rows = []
+    last_number = 0
+
     word = word.strip()  # Delete spaces on both sides
     word = word.lower()
     match = []
@@ -17,7 +21,7 @@ def add_new_word(database_file, word):
     match.append(re.search("^\S+-$", word))  # Check if word ends by -
     match.append(re.search("^\S+-+-", word))  # Check if word consists --
     match_flag = False
-    print(match0, match)
+    #print(match0, match)
     if match0 is None:
         match_flag = True
     for m in match:
@@ -34,39 +38,52 @@ def add_new_word(database_file, word):
         wordiscorrect = True
     else:
         wordiscorrect = False
-        print("Uncorrect word")
+        #print("Uncorrect word")
+
+    if len(word) == 0:
+        wordiscorrect = False
 
     if wordiscorrect:
         cur.execute('SELECT * FROM Words')
         counter = 0
-        last_number = 0
+
         words_match = False
         for row in cur:  # How large is our vocabulary?
             counter += 1
             last_number = row[0]  # It is used for next id calculation
-            print(row)
+            #print(row)
             if new_word == row[1]:
                 words_match = True
-        print("length of the base: ", counter)
+        #print("length of the base: ", counter)
 
         if words_match is False:  # Add new word
             params = (last_number+1, new_word)
             cur.execute('INSERT INTO Words (id, word) VALUES(?,?)', params)
             conn.commit()
         else:
-            print("this word is already exists in vocabulary")
+            pass
+            #print("this word is already exists in vocabulary")
 
         cur.execute('SELECT * FROM Words')
         for row in cur:
-            print(row)
+            list_of_rows.append(row)
 
     cur.close()
+    return wordiscorrect, words_match, list_of_rows, last_number,
 
 # main routine:
 if __name__ == "__main__":
     file_name = 'english_vocabulary.sqlite'
-    new_word = "speak"
-    add_new_word(file_name, new_word)
+    new_word = "lead"
+    res = add_new_word(file_name, new_word)
+    if res[0] is False:
+        print("Uncorrect word")
+    else:
+        if res[1] is True:
+            print("This word is already exists in vocabulary")
+    for row in res[2]:
+        print(row)
+    print("The last number is: ", res[3])
     # Irregular Verbs located from 1033 to 1277
     # Do not uncomment if database already created:
     #cur.execute('DROP TABLE IF EXISTS Words')
