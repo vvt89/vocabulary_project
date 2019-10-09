@@ -7,10 +7,11 @@ cur = conn.cursor()
 # Do not uncomment if database already created:
 #cur.execute('DROP TABLE IF EXISTS Words')
 #cur.execute('CREATE TABLE Words (id INTEGER, word TEXT)')
+# Irregular Verbs start from 1033 to 1277
 
-word = "t-shirt"
+word = "wound"
 wordiscorrect = False
-word = word.strip()  # Delete spaces on bath sides
+word = word.strip()  # Delete spaces on both sides
 word = word.lower()
 match = []
 match0 = (re.match("^[ '\-abcdefghijklmnopqrstuvwxyz]*$", word))  # Check if string consists only letters
@@ -60,7 +61,7 @@ if wordiscorrect:
     else:
         print("this word is already exists in vocabulary")
 
-    #cur.execute('DELETE FROM Words WHERE id = 181')
+    #cur.execute('DELETE FROM Words WHERE id = 617')
     #cur.execute('INSERT INTO Words (id, word) VALUES(?,?)', (181, "grandmother"))
     #conn.commit()
     cur.execute('SELECT * FROM Words')
