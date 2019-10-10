@@ -113,6 +113,24 @@ def get_random_word(database_file):
             word = i[1]
     return word
 
+def get_random_word_from_the_last(database_file, first_num):
+    word = None
+    conn = sqlite3.connect(database_file)
+    cur = conn.cursor()
+    cur.execute('SELECT * FROM Words')
+    counter = 0
+    for i in cur:
+        counter += 1
+    first_num = min(first_num, counter)
+    last_number = random.randint(first_num, counter)
+    cur.execute('SELECT * FROM Words')
+    counter = 0
+    for i in cur:
+        counter += 1
+        if counter == last_number:
+            word = i[1]
+    return word
+
 # main routine:
 if __name__ == "__main__":
     file_name = 'english_vocabulary.sqlite'
@@ -126,6 +144,8 @@ if __name__ == "__main__":
     for row in res[2]:
         print(row)
     print("The last number is: ", res[3])
+    random_word = get_random_word_from_the_last(file_name, 1)
+    print("random word: ", random_word)
     # Irregular Verbs located from 1033 to 1277
     # Do not uncomment if database already created:
     #cur.execute('DROP TABLE IF EXISTS Words')
