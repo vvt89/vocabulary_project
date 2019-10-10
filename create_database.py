@@ -1,3 +1,4 @@
+import random
 import re
 import sqlite3
 
@@ -70,6 +71,47 @@ def add_new_word(database_file, word):
 
     cur.close()
     return wordiscorrect, words_match, list_of_rows, last_number,
+
+def delete_word(database_file, input_word):
+    list_of_rows = []
+    conn = sqlite3.connect(database_file)
+    cur = conn.cursor()
+    cur.execute('DELETE FROM Words WHERE word = "' + input_word + '"')
+    conn.commit()
+    cur.execute('SELECT * FROM Words')
+    for row in cur:
+        list_of_rows.append(row)
+    cur.close()
+    return list_of_rows
+
+def delete_id(database_file, index):
+    list_of_rows = []
+    conn = sqlite3.connect(database_file)
+    cur = conn.cursor()
+    cur.execute('DELETE FROM Words WHERE id = ' + str(index))
+    conn.commit()
+    cur.execute('SELECT * FROM Words')
+    for row in cur:
+        list_of_rows.append(row)
+    cur.close()
+    return list_of_rows
+
+def get_random_word(database_file):
+    word = None
+    conn = sqlite3.connect(database_file)
+    cur = conn.cursor()
+    cur.execute('SELECT * FROM Words')
+    counter = 0
+    for i in cur:
+        counter += 1
+    last_number = random.randint(1, counter)
+    cur.execute('SELECT * FROM Words')
+    counter = 0
+    for i in cur:
+        counter += 1
+        if counter == last_number:
+            word = i[1]
+    return word
 
 # main routine:
 if __name__ == "__main__":

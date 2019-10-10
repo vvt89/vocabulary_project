@@ -31,6 +31,7 @@ class TestStringMethods(unittest.TestCase):
         res = add_new_word('test_database.sqlite', "   1  2   ")
         res = add_new_word('test_database.sqlite', "Cat ")
         print(res[0], res[1], res[3])
+        print("Create test database: ")
         for i in res[2]:
             print(i)
         self.assertEqual(res[0], True)
@@ -46,6 +47,20 @@ class TestStringMethods(unittest.TestCase):
         self.assertEqual(res[2][2][1], 'self-driving')
         self.assertEqual(res[2][3][1], "rock'n'roll")
         self.assertEqual(res[2][4][1], 't-shirt')
+        res = delete_word('test_database.sqlite', "to go")
+        res = delete_id('test_database.sqlite', 4)
+        print("Delete words from test database: ")
+        for i in res:
+            print(i)
+        self.assertEqual(res[0][0], 1)
+        self.assertEqual(res[1][0], 3)
+        self.assertEqual(res[2][0], 5)
+        self.assertEqual(res[0][1], 'cat')
+        self.assertEqual(res[1][1], 'self-driving')
+        self.assertEqual(res[2][1], 't-shirt')
+
+        res = get_random_word('test_database.sqlite')
+        print(res)
         # Drop the base:
         cur_t.execute('DROP TABLE IF EXISTS Words')
 
