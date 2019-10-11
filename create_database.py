@@ -66,33 +66,28 @@ def add_new_word(database_file, word):
             #print("this word is already exists in vocabulary")
 
         cur.execute('SELECT * FROM Words')
-        for row in cur:
-            list_of_rows.append(row)
+        list_of_rows = cur.fetchall()
 
     cur.close()
     return wordiscorrect, words_match, list_of_rows, last_number,
 
 def delete_word(database_file, input_word):
-    list_of_rows = []
     conn = sqlite3.connect(database_file)
     cur = conn.cursor()
     cur.execute('DELETE FROM Words WHERE word = "' + input_word + '"')
     conn.commit()
     cur.execute('SELECT * FROM Words')
-    for row in cur:
-        list_of_rows.append(row)
+    list_of_rows = cur.fetchall()
     cur.close()
     return list_of_rows
 
 def delete_id(database_file, index):
-    list_of_rows = []
     conn = sqlite3.connect(database_file)
     cur = conn.cursor()
     cur.execute('DELETE FROM Words WHERE id = ' + str(index))
     conn.commit()
     cur.execute('SELECT * FROM Words')
-    for row in cur:
-        list_of_rows.append(row)
+    list_of_rows = cur.fetchall()
     cur.close()
     return list_of_rows
 
@@ -101,9 +96,7 @@ def get_random_word(database_file):
     conn = sqlite3.connect(database_file)
     cur = conn.cursor()
     cur.execute('SELECT * FROM Words')
-    counter = 0
-    for i in cur:
-        counter += 1
+    counter = len(cur.fetchall())
     last_number = random.randint(1, counter)
     cur.execute('SELECT * FROM Words')
     counter = 0
@@ -118,9 +111,7 @@ def get_random_word_from_the_last(database_file, first_num):
     conn = sqlite3.connect(database_file)
     cur = conn.cursor()
     cur.execute('SELECT * FROM Words')
-    counter = 0
-    for i in cur:
-        counter += 1
+    counter = len(cur.fetchall())
     first_num = min(first_num, counter)
     last_number = random.randint(first_num, counter)
     cur.execute('SELECT * FROM Words')
