@@ -2,6 +2,7 @@ import random
 import re
 import sqlite3
 
+
 def add_new_word(database_file, word):
     conn = sqlite3.connect(database_file)
     cur = conn.cursor()
@@ -22,7 +23,7 @@ def add_new_word(database_file, word):
     match.append(re.search("^\S+-$", word))  # Check if word ends by -
     match.append(re.search("^\S+-+-", word))  # Check if word consists --
     match_flag = False
-    #print(match0, match)
+    # print(match0, match)
     if match0 is None:
         match_flag = True
     for m in match:
@@ -71,6 +72,7 @@ def add_new_word(database_file, word):
     cur.close()
     return wordiscorrect, words_match, list_of_rows, last_number,
 
+
 def delete_word(database_file, input_word):
     conn = sqlite3.connect(database_file)
     cur = conn.cursor()
@@ -81,6 +83,7 @@ def delete_word(database_file, input_word):
     cur.close()
     return list_of_rows
 
+
 def delete_id(database_file, index):
     conn = sqlite3.connect(database_file)
     cur = conn.cursor()
@@ -90,6 +93,7 @@ def delete_id(database_file, index):
     list_of_rows = cur.fetchall()
     cur.close()
     return list_of_rows
+
 
 def get_random_word(database_file):
     word = None
@@ -105,6 +109,7 @@ def get_random_word(database_file):
         if counter == last_number:
             word = i[1]
     return word
+
 
 def get_random_word_from_the_last(database_file, first_num):
     word = None
@@ -122,10 +127,11 @@ def get_random_word_from_the_last(database_file, first_num):
             word = i[1]
     return word
 
+
 # main routine:
 if __name__ == "__main__":
     file_name = 'english_vocabulary.sqlite'
-    new_word = "lead"
+    new_word = "sibling"
     res = add_new_word(file_name, new_word)
     if res[0] is False:
         print("Uncorrect word")
@@ -139,8 +145,8 @@ if __name__ == "__main__":
     print("random word: ", random_word)
     # Irregular Verbs located from 1033 to 1277
     # Do not uncomment if database already created:
-    #cur.execute('DROP TABLE IF EXISTS Words')
-    #cur.execute('CREATE TABLE Words (id INTEGER, word TEXT)')
-    #cur.execute('DELETE FROM Words WHERE id = 617')
-    #cur.execute('INSERT INTO Words (id, word) VALUES(?,?)', (181, "grandmother"))
-    #conn.commit()
+    # cur.execute('DROP TABLE IF EXISTS Words')
+    # cur.execute('CREATE TABLE Words (id INTEGER, word TEXT)')
+    # cur.execute('DELETE FROM Words WHERE id = 617')
+    # cur.execute('INSERT INTO Words (id, word) VALUES(?,?)', (181, "grandmother"))
+    # conn.commit()

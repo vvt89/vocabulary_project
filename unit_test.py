@@ -2,6 +2,7 @@ import sqlite3
 import unittest
 from create_database import *
 
+
 class TestStringMethods(unittest.TestCase):
 
     def setUp(self):
@@ -87,6 +88,7 @@ class TestStringMethods(unittest.TestCase):
 
     def tearDown(self):
         pass
+
 
 if __name__ == '__main__':
     unittest.main()
