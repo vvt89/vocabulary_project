@@ -45,6 +45,10 @@ def add_new_word(database_file, word):
     if len(word) == 0:
         wordiscorrect = False
 
+    # Check the length of a word. The longest known word is pseudopseudohypoparathyroidism, which contains 30 letters.
+    if len(word) > 30:
+        wordiscorrect = False
+
     if wordiscorrect:
         cur.execute('SELECT * FROM Words')
         counter = 0
@@ -131,10 +135,10 @@ def get_random_word_from_the_last(database_file, first_num):
 # main routine:
 if __name__ == "__main__":
     file_name = 'english_vocabulary.sqlite'
-    new_word = "sibling"
+    new_word = "comparison"
     res = add_new_word(file_name, new_word)
     if res[0] is False:
-        print("Uncorrect word")
+        print("Incorrect word")
     else:
         if res[1] is True:
             print("This word is already exists in vocabulary")
@@ -143,6 +147,7 @@ if __name__ == "__main__":
     print("The last number is: ", res[3])
     random_word = get_random_word_from_the_last(file_name, 1)
     print("random word: ", random_word)
+    # delete_word(file_name, "wast")
     # Irregular Verbs located from 1033 to 1277
     # Do not uncomment if database already created:
     # cur.execute('DROP TABLE IF EXISTS Words')

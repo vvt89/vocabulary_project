@@ -14,6 +14,7 @@ class TestStringMethods(unittest.TestCase):
         cur_t.execute('DROP TABLE IF EXISTS Words')
         cur_t.execute('CREATE TABLE Words (id INTEGER, word TEXT)')
 
+        res = add_new_word('test_database.sqlite', " caTcaTcaTcaTcaTcaTcaTcaTcaTcaTcaTcaTcaTcaTcaTcaTcaTcaT")
         res = add_new_word('test_database.sqlite', " caT")
         res = add_new_word('test_database.sqlite', "to  Go ")
         res = add_new_word('test_database.sqlite', " to Go")
