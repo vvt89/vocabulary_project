@@ -69,7 +69,7 @@ class TestStringMethods(unittest.TestCase):
         self.assertIsNotNone(res)
 
         res = get_random_word_from_the_last('test_database.sqlite', 15)
-        self.assertEqual(res, 't-shirt')
+        self.assertEqual(res[0], 't-shirt')
 
         res = add_new_word('test_database.sqlite', "god")
         res = add_new_word('test_database.sqlite', "mouse")
