@@ -4,6 +4,15 @@ import sqlite3
 
 
 def add_new_word(database_file, word):
+
+    # Receives name of database file, and word that should be added to vocabulary
+    # Returns :
+    #   1 Is word correct (T/F)
+    #   2 Is word already exists in vocabulary (T/F)
+    #   3 List of rows contained in database
+    #   4 The last id
+    #   5 The word id if word already exists or the last number if not
+
     conn = sqlite3.connect(database_file)
     cur = conn.cursor()
 
@@ -77,7 +86,7 @@ def add_new_word(database_file, word):
         list_of_rows = cur.fetchall()
 
     cur.close()
-    return wordiscorrect, words_match, list_of_rows, last_number, word_number
+    return wordiscorrect, words_match, list_of_rows, last_number+1, word_number
 
 
 def add_translation(database_file, trans_database_file, word, translation):
@@ -216,11 +225,11 @@ def return_database_as_list(database_file, trans_file_name, number):
         for j in transl_list:
             transl_string += j[1]
             transl_string += ', '
-        words_tranlations_list.append({'word': element[1], 'translations': transl_string})
+        words_tranlations_list.append(element[1] + ' - ' + transl_string)
 
-    print("Итоговый список")
-    for i in words_tranlations_list:
-        print(i)
+    #print("Итоговый список")
+    #for i in words_tranlations_list:
+    #    print(i)
 
     return 0
 
